@@ -32,7 +32,6 @@
         <param-value>/WEB-INF/classes/applicationContext.xml</param-value>
     </context-param>
 
-    <!--配置/struts-tag位置-->
     <jsp-config>
         <taglib>
             <taglib-uri>struts2</taglib-uri>
