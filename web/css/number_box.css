@@ -1,0 +1,40 @@
+.number-box {
+    border:#e5e5e5 solid 1px;
+    display:inline-block;
+    overflow:hidden;
+}
+
+.number-box input[type='text'] {
+    height:30px;
+    border-top:none;
+    border-bottom:none;
+    border-left:#e5e5e5 solid 1px;
+    border-right:#e5e5e5 solid 1px;
+    margin:0;
+    text-align:center;
+    width:40px;
+    outline:none;
+    padding:0 5px;
+    float:left;
+    line-height:30px;
+}
+
+.number-box input[type='button'] {
+    height:30px;
+    width:40px;
+    float:left;
+    border:none;
+    outline:none;
+    background-color:#f3f3f3;
+    line-height:30px;
+    cursor:pointer;
+    padding:0;
+}
+
+.number-box input[type='button']:hover {
+    background-color:#f9f9f9;
+}
+
+.number-box input[type='button']:active {
+    background-color:#f6f6f6;
+}
