@@ -1,8 +1,11 @@
 package com.chiyu.action;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 @Controller
 @Scope("prototype")
@@ -36,6 +39,9 @@ public class AdminLogin extends ActionSupport {
 
     @Override
     public String execute() throws Exception {
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        session.put("isAdmin",true);
+        session.put("adminName",this.userName);
         return SUCCESS;
     }
 }
