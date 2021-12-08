@@ -57,7 +57,7 @@ public class BorderitemEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "OID", referencedColumnName = "OID", nullable = false)
+    @JoinColumn(name = "OID", referencedColumnName = "OID", nullable = false,insertable = false,updatable = false)
     public BorderEntity getBorderByOid() {
         return borderByOid;
     }
@@ -67,7 +67,7 @@ public class BorderitemEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "BID", referencedColumnName = "BID", nullable = false)
+    @JoinColumn(name = "BID", referencedColumnName = "BID", nullable = false,insertable = false,updatable = false)
     public BookEntity getBookByBid() {
         return bookByBid;
     }

@@ -2,7 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa https://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!-- 使用 annotation -->
     <context:annotation-config/>
 
@@ -10,4 +11,50 @@
     <context:component-scan base-package="com.chiyu.action"/>
     <context:component-scan base-package="com.chiyu.service"/>
     <context:component-scan base-package="com.chiyu.dao"/>
+
+    <!-- 引入数据库配置文件 db.properties -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 数据库连接池连接设置 -->
+    <bean id="dataSource" class="org.h2.jdbcx.JdbcConnectionPool" factory-method="create" destroy-method="dispose">
+        <constructor-arg index="0" value="${db.url}"/>
+        <constructor-arg index="1" value="${db.userName}"/>
+        <constructor-arg index="2" value="${db.password}"/>
+    </bean>
+
+    <!-- hibernate 的 Jpa 实现 -->
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    <jpa:repositories base-package="com.chiyu.dao"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
+
+    <!-- 配置针对 JPA 的局部事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <!-- SpringDataJpa设置 -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="packagesToScan" value="com.chiyu.entity"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <!-- 显示SQL -->
+                <prop key="hibernate.show_sql">ture</prop>
+                <!-- 格式化SQL -->
+                <prop key="hibernate.format_sql">ture</prop>
+                <!-- 生成SQL注释 -->
+                <prop key="hibernate.use_sql_comments">ture</prop>
+                <!-- 配置如何根据java模型生成数据库表结构 -->
+                <prop key="hibernate.hbm2ddl.auto">validate</prop>
+                <!-- 配置表名字段的习惯，采用下划线，例如My_Name -> MyName -->
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+            </props>
+        </property>
+    </bean>
 </beans>

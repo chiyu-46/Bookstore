@@ -31,4 +31,19 @@ public class BackgroundDispatcher extends ActionSupport {
         session.clear();
         return LOGIN;
     }
+
+    //到达后台订单管理。
+    public String toOrderManage() {
+        return "toOrderManage";
+    }
+
+    //到达后台客户管理。
+    public String toCustomerManage() {
+        return "toCustomerManage";
+    }
+
+    //到达后台书籍管理。
+    public String toBookManage() {
+        return "toBookManage";
+    }
 }

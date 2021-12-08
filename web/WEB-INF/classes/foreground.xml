@@ -5,8 +5,6 @@
 
 <struts>
     <package name="foreground" namespace="/" extends="struts-default" strict-method-invocation="false">
-        <action name="index">
-            <result>/index.jsp</result>
-        </action>
+
     </package>
 </struts>

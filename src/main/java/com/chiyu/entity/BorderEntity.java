@@ -9,6 +9,7 @@ import java.util.Objects;
 @Table(name = "BORDER", schema = "PUBLIC", catalog = "BOOKSTORE")
 public class BorderEntity {
     private int oid;
+    private String cid;
     private String ostate;
     private Date otime;
     private String receptor;
@@ -25,6 +26,16 @@ public class BorderEntity {
 
     public void setOid(int oid) {
         this.oid = oid;
+    }
+
+    @Basic
+    @Column(name = "CID", nullable = false, length = 10)
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
     }
 
     @Basic
@@ -82,16 +93,16 @@ public class BorderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BorderEntity that = (BorderEntity) o;
-        return oid == that.oid && Objects.equals(ostate, that.ostate) && Objects.equals(otime, that.otime) && Objects.equals(receptor, that.receptor) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone);
+        return oid == that.oid && Objects.equals(cid, that.cid) && Objects.equals(ostate, that.ostate) && Objects.equals(otime, that.otime) && Objects.equals(receptor, that.receptor) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oid, ostate, otime, receptor, address, phone);
+        return Objects.hash(oid, cid, ostate, otime, receptor, address, phone);
     }
 
     @ManyToOne
-    @JoinColumn(name = "CID", referencedColumnName = "CID", nullable = false)
+    @JoinColumn(name = "CID", referencedColumnName = "CID", nullable = false,insertable = false,updatable = false)
     public CustomerEntity getCustomerByCid() {
         return customerByCid;
     }

@@ -5,13 +5,14 @@
 
 <struts>
     <package name="background" namespace="/admin" extends="struts-default" strict-method-invocation="false">
-        <action name="index" class="backgroundDispatcher">
-            <result name="input">/admin/admin_login.jsp</result>
-            <result name="success">/admin/admin_welcome.jsp</result>
-            <result name="login">/admin/admin_login.jsp</result>
+        <action name="index">
+            <result>/admin/admin_welcome.jsp</result>
+        </action>
+        <action name="login">
+            <result>/admin/admin_login.jsp</result>
         </action>
         <action name="toLogin" class="adminLogin">
-            <result name="success" type="redirectAction">index.action</result>
+            <result name="success">/admin/admin_welcome.jsp</result>
             <result name="input">/admin/admin_login.jsp</result>
         </action>
     </package>
