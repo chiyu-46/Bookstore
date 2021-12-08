@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="com.chiyu.entity.BookEntity">
+        <table name="BOOK" schema="PUBLIC" catalog="BOOKSTORE"/>
+        <attributes>
+            <id name="bid">
+                <column name="BID" length="13"/>
+            </id>
+            <basic name="bname">
+                <column name="BNAME" length="30"/>
+            </basic>
+            <basic name="price">
+                <column name="PRICE" precision="53"/>
+            </basic>
+            <basic name="author">
+                <column name="AUTHOR" nullable="false" length="30"/>
+            </basic>
+            <basic name="press">
+                <column name="PRESS" nullable="false" length="30"/>
+            </basic>
+            <one-to-many name="borderitemsByBid" mapped-by="bookByBid"
+                         target-entity="com.chiyu.entity.BorderitemEntity"/>
+        </attributes>
+    </entity>
+    <entity class="com.chiyu.entity.BorderEntity">
+        <table name="BORDER" schema="PUBLIC" catalog="BOOKSTORE"/>
+        <attributes>
+            <id name="oid">
+                <column name="OID" precision="32"/>
+            </id>
+            <basic name="ostate">
+                <column name="OSTATE" length="6"/>
+            </basic>
+            <basic name="otime">
+                <column name="OTIME" precision="10"/>
+            </basic>
+            <basic name="receptor">
+                <column name="RECEPTOR" length="20"/>
+            </basic>
+            <basic name="address">
+                <column name="ADDRESS" length="60"/>
+            </basic>
+            <basic name="phone">
+                <column name="PHONE" nullable="false" length="25"/>
+            </basic>
+            <many-to-one name="customerByCid" optional="true" target-entity="com.chiyu.entity.CustomerEntity">
+                <join-column name="CID" referenced-column-name="CID"/>
+            </many-to-one>
+            <one-to-many name="borderitemsByOid" mapped-by="borderByOid"
+                         target-entity="com.chiyu.entity.BorderitemEntity"/>
+        </attributes>
+    </entity>
+    <entity class="com.chiyu.entity.BorderitemEntity">
+        <table name="BORDERITEM" schema="PUBLIC" catalog="BOOKSTORE"/>
+        <id-class class="com.chiyu.entity.BorderitemEntityPK"/>
+        <attributes>
+            <id name="oid">
+                <column name="OID" precision="32"/>
+            </id>
+            <id name="bid">
+                <column name="BID" length="13"/>
+            </id>
+            <basic name="quantity">
+                <column name="QUANTITY" precision="32"/>
+            </basic>
+            <many-to-one name="borderByOid" optional="true" target-entity="com.chiyu.entity.BorderEntity">
+                <join-column name="OID" referenced-column-name="OID"/>
+            </many-to-one>
+            <many-to-one name="bookByBid" optional="true" target-entity="com.chiyu.entity.BookEntity">
+                <join-column name="BID" referenced-column-name="BID"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="com.chiyu.entity.CustomerEntity">
+        <table name="CUSTOMER" schema="PUBLIC" catalog="BOOKSTORE"/>
+        <attributes>
+            <id name="cid">
+                <column name="CID" length="10"/>
+            </id>
+            <basic name="cname">
+                <column name="CNAME" length="20"/>
+            </basic>
+            <basic name="phone">
+                <column name="PHONE" nullable="false" length="20"/>
+            </basic>
+            <basic name="address">
+                <column name="ADDRESS" nullable="false" length="60"/>
+            </basic>
+            <basic name="password">
+                <column name="PASSWORD" length="20"/>
+            </basic>
+            <one-to-many name="bordersByCid" mapped-by="customerByCid" target-entity="com.chiyu.entity.BorderEntity"/>
+        </attributes>
+    </entity>
+</entity-mappings>
