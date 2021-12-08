@@ -74,7 +74,7 @@
     <!--对应添加提交按钮-->
     function submitBookFunc(btn){
         $.ajax({
-            url:"bookManage!addBook.action",
+            url:"bookManager!addBook.action",
             type:"post",
             data:{"book.bid":$("#input_bid").val(),"book.bname":$("#input_bname").val(),"book.price":$("#input_price").val(),"book.author":$("#input_author").val(),"book.press":$("#input_press").val()},
             dataType:"text",
