@@ -68,34 +68,79 @@
 
     <!--对应添加按钮-->
     $("#addBookButton").click(function() {
-        $("#bookList").append("<tr><th scope=\"row\"><input id='input_bid' type=\"text\" name=\"book.bid\" placeholder=\"书号\" required autofocus></th> <td><input id='input_bname' type=\"text\" name=\"book.bname\" placeholder=\"书名\" required></td> <td><input id='input_price' type=\"text\" name=\"book.price\" placeholder=\"单价\" required></td> <td><input id='input_author' type=\"text\" name=\"book.author\" placeholder=\"作者\" required></td> <td><input id='input_press' type=\"text\" name=\"book.press\" placeholder=\"出版社\" required></td> <td> <button onclick='submitBookFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary deleteBookButton\">提交</button> </td></tr>");
+        $("#bookList").append("<tr id='newLine'><th scope=\"row\"><input id='input_bid' type=\"text\" name=\"book.bid\" placeholder=\"书号\" required autofocus></th> <td><input id='input_bname' type=\"text\" name=\"book.bname\" placeholder=\"书名\" required></td> <td><input id='input_price' type=\"text\" name=\"book.price\" placeholder=\"单价\" required></td> <td><input id='input_author' type=\"text\" name=\"book.author\" placeholder=\"作者\" required></td> <td><input id='input_press' type=\"text\" name=\"book.press\" placeholder=\"出版社\" required></td> <td> <button onclick='submitBookFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary deleteBookButton\">提交</button> </td></tr>");
+        //只有在一条新记录提交完成后，才能创建下一条新的记录。
+        $(this).attr("disabled",true);
     });
 
     <!--对应添加提交按钮-->
     function submitBookFunc(btn){
+        //防止多次提交
+        $(btn).attr("disabled",true);
+        let bid = $("#input_bid").val();
+        let bname = $("#input_bname").val();
+        let price = $("#input_price").val();
+        let author = $("#input_author").val();
+        let press = $("#input_press").val();
         $.ajax({
-            url:"bookManager!addBook.action",
+            url:"bookManager!addOrUpdateBook.action",
             type:"post",
-            data:{"book.bid":$("#input_bid").val(),"book.bname":$("#input_bname").val(),"book.price":$("#input_price").val(),"book.author":$("#input_author").val(),"book.press":$("#input_press").val()},
+            data:{"book.bid":bid,"book.bname":bname,"book.price":price,"book.author":author,"book.press":press},
             dataType:"text",
             error:function (){
-                alert("添加成功！");
+                alert("操作失败！");
             },
-            success:function (){
-                alert("添加失败！");
+            success:function (data){
+                alert(data);
+                if (data === "操作成功"){
+                    //只有在一条新记录提交完成后，才能创建下一条新的记录。
+                    $("#addBookButton").attr("disabled",false);
+                    $("#newLine").remove();
+                    $("#bookList").append("<tr><th scope='row'>" + bid+ "</th> <td>" + bname + "</td> <td>" + price + "</td> <td>" + author + "</td> <td>" + press + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateBookFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteBookFunc(this)'>删除</button></div></td></tr>'");
+                }
             }
         })
     }
 
     <!--对应修改按钮-->
     function updateBookFunc(btn){
-        alert("点击了修改按钮！");
+        let item = $(btn).parents("div").parent("td").siblings("th");
+        //防止多次提交
+        $(btn).attr("disabled",true);
+        let bid = item.text();
+        let bname = item.next().text();
+        let price = item.next().next().text();
+        let author = item.next().next().next().text();
+        let press = item.next().next().next().next().text();
+        item.parents("tr").remove();
+        $("#bookList").append("<tr id='newLine'><th scope=\"row\"><input id='input_bid' type=\"text\" name=\"book.bid\" value=" + bid + " required disabled></th> <td><input id='input_bname' type=\"text\" name=\"book.bname\" value=" + bname + " required></td> <td><input id='input_price' type=\"text\" name=\"book.price\" value=" + price + " required></td> <td><input id='input_author' type=\"text\" name=\"book.author\" value=" + author + " required></td> <td><input id='input_press' type=\"text\" name=\"book.press\" value=" + press + " required></td> <td> <button onclick='submitBookFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary deleteBookButton\">提交</button> </td></tr>");
     }
 
     <!--对应删除按钮-->
     function deleteBookFunc(btn){
-        alert("点击了删除按钮！");
-        $(btn).parents("tr").remove();
+        if(confirm('确定要删除该行信息?')){
+            let item = $(btn).parents("div").parent("td").siblings("th");
+            //防止多次提交
+            $(btn).attr("disabled",true);
+            let bid = item.text();
+            $.ajax({
+                url:"bookManager!deleteBook.action",
+                type:"post",
+                data:{"book.bid":bid},
+                dataType:"text",
+                error:function (){
+                    alert("删除失败！");
+                },
+                success:function (data){
+                    alert(data);
+                    if (data === "删除成功"){
+                        $(btn).parents("tr").remove();
+                    }else {
+                        $(btn).attr("disabled",false);
+                    }
+                }
+            })
+        }
     }
 </script>
 </body>

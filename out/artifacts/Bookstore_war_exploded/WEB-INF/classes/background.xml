@@ -19,7 +19,13 @@
         </action>
         <action name="bookManager" class="bookManager">
             <result name="success">/admin/admin_book.jsp</result>
-            <result name="addBookResult" type="stream">
+            <result name="addOrUpdateBookResult" type="stream">
+                <!-- 设置返回给浏览器的数据类型 -->
+                <param name="contentType">text/html</param>
+                <!--指定获取InputStream的方法，getInputStream(),约定：去掉get，后面部分使用camel写法 -->
+                <param name="inputName">inputStream</param>
+            </result>
+            <result name="deleteBookResult" type="stream">
                 <!-- 设置返回给浏览器的数据类型 -->
                 <param name="contentType">text/html</param>
                 <!--指定获取InputStream的方法，getInputStream(),约定：去掉get，后面部分使用camel写法 -->

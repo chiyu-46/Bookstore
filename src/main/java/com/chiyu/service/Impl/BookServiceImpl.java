@@ -24,18 +24,13 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookEntity insertBook(BookEntity book) {
+    public BookEntity insertOrUpdateBook(BookEntity book) {
         return bookDao.save(book);
     }
 
     @Override
     public void deleteBook(String id) {
         bookDao.deleteById(id);
-    }
-
-    @Override
-    public BookEntity updateBook(BookEntity book) {
-        return bookDao.save(book);
     }
 
     @Override
