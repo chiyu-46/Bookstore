@@ -62,7 +62,7 @@ public class BookManager extends ActionSupport {
         return SUCCESS;
     }
 
-    //添加图书方法，使用AJAX
+    //添加或更新图书方法，使用AJAX
     public String addOrUpdateBook(){
         bookService.insertOrUpdateBook(book);
         String result = "操作成功";
@@ -70,6 +70,7 @@ public class BookManager extends ActionSupport {
         return "addOrUpdateBookResult";
     }
 
+    //删除图书方法，使用AJAX
     public String deleteBook(){
         bookService.deleteBook(book.getBid());
         String result = "删除成功";

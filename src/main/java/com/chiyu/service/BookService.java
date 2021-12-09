@@ -5,7 +5,7 @@ import com.chiyu.entity.BookEntity;
 import java.util.List;
 
 public interface BookService {
-    //插入一条图书信息
+    //插入或更新一条图书信息
     BookEntity insertOrUpdateBook(BookEntity book);
 
     //删除一条图书信息
