@@ -73,7 +73,7 @@
         $(this).attr("disabled",true);
     });
 
-    <!--对应添加提交按钮-->
+    <!--对应提交按钮-->
     function submitBookFunc(btn){
         //防止多次提交
         $(btn).attr("disabled",true);
