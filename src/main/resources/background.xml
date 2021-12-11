@@ -5,6 +5,7 @@
 
 <struts>
     <package name="background" namespace="/admin" extends="struts-default" strict-method-invocation="false">
+        <!--后台总调度-->
         <action name="index" class="backgroundDispatcher">
             <result name="input">/admin/admin_login.jsp</result>
             <result name="success">/admin/admin_welcome.jsp</result>
@@ -13,10 +14,12 @@
             <result name="toCustomerManage" type="redirectAction">customerManager.action</result>
             <result name="toBookManage" type="redirectAction">bookManager.action</result>
         </action>
+        <!--管理员登录相关-->
         <action name="toLogin" class="adminLogin">
             <result name="success" type="redirectAction">index.action</result>
             <result name="input">/admin/admin_login.jsp</result>
         </action>
+        <!--书籍管理-->
         <action name="bookManager" class="bookManager">
             <result name="success">/admin/admin_book.jsp</result>
             <result name="addOrUpdateBookResult" type="stream">
@@ -32,6 +35,7 @@
                 <param name="inputName">inputStream</param>
             </result>
         </action>
+        <!--客户管理-->
         <action name="customerManager" class="customerManager">
             <result name="success">/admin/admin_customer.jsp</result>
             <result name="addOrUpdateCustomerResult" type="stream">
@@ -41,9 +45,19 @@
                 <param name="inputName">inputStream</param>
             </result>
             <result name="deleteCustomerResult" type="stream">
-                <!-- 设置返回给浏览器的数据类型 -->
                 <param name="contentType">text/html</param>
-                <!--指定获取InputStream的方法，getInputStream(),约定：去掉get，后面部分使用camel写法 -->
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
+        <!--订单管理-->
+        <action name="orderManager" class="orderManager">
+            <result name="success">/admin/admin_order.jsp</result>
+            <result name="addOrUpdateOrderResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+            <result name="deleteOrderResult" type="stream">
+                <param name="contentType">text/html</param>
                 <param name="inputName">inputStream</param>
             </result>
         </action>
