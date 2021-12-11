@@ -1,5 +1,7 @@
 package com.chiyu.action;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.chiyu.entity.CustomerEntity;
 import com.chiyu.service.CustomerService;
 import com.opensymphony.xwork2.ActionSupport;
@@ -10,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class CustomerManager extends ActionSupport {
@@ -62,11 +65,16 @@ public class CustomerManager extends ActionSupport {
         return SUCCESS;
     }
 
-    //添加或更新客户信息方法，使用AJAX
+    //添加或更新客户信息方法，使用AJAX，返回json字符串
     public String addOrUpdateCustomer(){
-        customerService.insertOrUpdateCustomer(customer);
-        String result = "操作成功";
-        inputStream=new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
+        if (customer.getCid() == null || customer.getCid().isEmpty()){
+            customer.setCid(UUID.randomUUID().toString().replace("-", ""));
+        }
+        customer = customerService.insertOrUpdateCustomer(customer);
+        JSONObject object = new JSONObject();
+        object.put("result","操作成功");
+        object.put("cid",customer.getCid());
+        inputStream=new ByteArrayInputStream(JSON.toJSONString(object).getBytes(StandardCharsets.UTF_8));
         return "addOrUpdateCustomerResult";
     }
 

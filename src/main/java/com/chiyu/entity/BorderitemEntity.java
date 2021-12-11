@@ -7,19 +7,19 @@ import java.util.Objects;
 @Table(name = "BORDERITEM", schema = "PUBLIC", catalog = "BOOKSTORE")
 @IdClass(BorderitemEntityPK.class)
 public class BorderitemEntity {
-    private int oid;
+    private String oid;
     private String bid;
     private int quantity;
     private BorderEntity borderByOid;
     private BookEntity bookByBid;
 
     @Id
-    @Column(name = "OID", nullable = false)
-    public int getOid() {
+    @Column(name = "OID", nullable = false, length = 32)
+    public String getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
+    public void setOid(String oid) {
         this.oid = oid;
     }
 
@@ -48,7 +48,7 @@ public class BorderitemEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BorderitemEntity that = (BorderitemEntity) o;
-        return oid == that.oid && quantity == that.quantity && Objects.equals(bid, that.bid);
+        return quantity == that.quantity && Objects.equals(oid, that.oid) && Objects.equals(bid, that.bid);
     }
 
     @Override

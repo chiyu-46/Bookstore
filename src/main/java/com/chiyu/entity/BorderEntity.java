@@ -1,17 +1,17 @@
 package com.chiyu.entity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "BORDER", schema = "PUBLIC", catalog = "BOOKSTORE")
 public class BorderEntity {
-    private int oid;
+    private String oid;
     private String cid;
+    private Timestamp otime;
     private String ostate;
-    private Date otime;
     private String receptor;
     private String address;
     private String phone;
@@ -19,23 +19,33 @@ public class BorderEntity {
     private Collection<BorderitemEntity> borderitemsByOid;
 
     @Id
-    @Column(name = "OID", nullable = false)
-    public int getOid() {
+    @Column(name = "OID", nullable = false, length = 32)
+    public String getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
+    public void setOid(String oid) {
         this.oid = oid;
     }
 
     @Basic
-    @Column(name = "CID", nullable = false, length = 10)
+    @Column(name = "CID", nullable = false, length = 32)
     public String getCid() {
         return cid;
     }
 
     public void setCid(String cid) {
         this.cid = cid;
+    }
+
+    @Basic
+    @Column(name = "OTIME", nullable = false)
+    public Timestamp getOtime() {
+        return otime;
+    }
+
+    public void setOtime(Timestamp otime) {
+        this.otime = otime;
     }
 
     @Basic
@@ -46,16 +56,6 @@ public class BorderEntity {
 
     public void setOstate(String ostate) {
         this.ostate = ostate;
-    }
-
-    @Basic
-    @Column(name = "OTIME", nullable = false)
-    public Date getOtime() {
-        return otime;
-    }
-
-    public void setOtime(Date otime) {
-        this.otime = otime;
     }
 
     @Basic
@@ -79,7 +79,7 @@ public class BorderEntity {
     }
 
     @Basic
-    @Column(name = "PHONE", nullable = true, length = 25)
+    @Column(name = "PHONE", nullable = false, length = 20)
     public String getPhone() {
         return phone;
     }
@@ -93,12 +93,12 @@ public class BorderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BorderEntity that = (BorderEntity) o;
-        return oid == that.oid && Objects.equals(cid, that.cid) && Objects.equals(ostate, that.ostate) && Objects.equals(otime, that.otime) && Objects.equals(receptor, that.receptor) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone);
+        return Objects.equals(oid, that.oid) && Objects.equals(cid, that.cid) && Objects.equals(otime, that.otime) && Objects.equals(ostate, that.ostate) && Objects.equals(receptor, that.receptor) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oid, cid, ostate, otime, receptor, address, phone);
+        return Objects.hash(oid, cid, otime, ostate, receptor, address, phone);
     }
 
     @ManyToOne

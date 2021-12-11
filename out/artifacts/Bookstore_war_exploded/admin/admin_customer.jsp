@@ -88,14 +88,23 @@
             dataType:"text",
             error:function (){
                 alert("操作失败！");
+                //可以再次尝试提交
+                $(btn).attr("disabled",false);
             },
             success:function (data){
-                alert(data);
-                if (data === "操作成功"){
+                //alert(data);
+                // 将json字符串转化为json对象
+                let obj = jQuery.parseJSON(data);
+                if (obj.result === "操作成功"){
+                    alert(obj.result);
+                    cid = obj.cid;
                     //只有在一条新记录提交完成后，才能创建下一条新的记录。
                     $("#addCustomerButton").attr("disabled",false);
                     $("#newLine").remove();
-                    $("#customerList").append("<tr><th scope='row'>" + cid+ "</th> <td>" + cname + "</td> <td>" + phone + "</td> <td>" + address + "</td> <td>" + password + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateCustomerFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteCustomerFunc(this)'>删除</button></div></td></tr>'");
+                    $("#customerList").append("<tr><th scope='row'>" + cid + "</th> <td>" + cname + "</td> <td>" + phone + "</td> <td>" + address + "</td> <td>" + password + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateCustomerFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteCustomerFunc(this)'>删除</button></div></td></tr>'");
+                }else {
+                    //可以再次尝试提交
+                    $(btn).attr("disabled",false);
                 }
             }
         })

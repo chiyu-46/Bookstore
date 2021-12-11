@@ -15,7 +15,7 @@ public class CustomerEntity {
     private Collection<BorderEntity> bordersByCid;
 
     @Id
-    @Column(name = "CID", nullable = false, length = 10)
+    @Column(name = "CID", nullable = false, length = 32)
     public String getCid() {
         return cid;
     }

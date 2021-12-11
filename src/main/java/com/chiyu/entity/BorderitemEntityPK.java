@@ -6,16 +6,16 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class BorderitemEntityPK implements Serializable {
-    private int oid;
+    private String oid;
     private String bid;
 
-    @Column(name = "OID", nullable = false)
+    @Column(name = "OID", nullable = false, length = 32)
     @Id
-    public int getOid() {
+    public String getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
+    public void setOid(String oid) {
         this.oid = oid;
     }
 
@@ -34,7 +34,7 @@ public class BorderitemEntityPK implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BorderitemEntityPK that = (BorderitemEntityPK) o;
-        return oid == that.oid && Objects.equals(bid, that.bid);
+        return Objects.equals(oid, that.oid) && Objects.equals(bid, that.bid);
     }
 
     @Override
