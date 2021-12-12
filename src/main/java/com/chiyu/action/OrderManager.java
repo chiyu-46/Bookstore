@@ -88,4 +88,9 @@ public class OrderManager extends ActionSupport {
         inputStream=new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
         return "deleteOrderResult";
     }
+
+    //跳转到订单详情页面
+    public String toOrderItem(){
+        return "toOrderItem";
+    }
 }

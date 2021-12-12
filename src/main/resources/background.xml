@@ -60,6 +60,19 @@
                 <param name="contentType">text/html</param>
                 <param name="inputName">inputStream</param>
             </result>
+            <result name="toOrderItem" type="redirectAction">orderItemManager.action?oid=${order.oid}</result>
+        </action>
+        <!--订单项管理-->
+        <action name="orderItemManager" class="orderItemManager">
+            <result name="success">/admin/admin_order.jsp</result>
+            <result name="addOrUpdateOrderItemResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+            <result name="deleteOrderItemResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
         </action>
     </package>
 </struts>

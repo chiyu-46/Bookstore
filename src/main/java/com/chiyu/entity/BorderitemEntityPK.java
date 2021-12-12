@@ -9,6 +9,14 @@ public class BorderitemEntityPK implements Serializable {
     private String oid;
     private String bid;
 
+    public BorderitemEntityPK() {
+    }
+
+    public BorderitemEntityPK(String oid, String bid) {
+        this.oid = oid;
+        this.bid = bid;
+    }
+
     @Column(name = "OID", nullable = false, length = 32)
     @Id
     public String getOid() {

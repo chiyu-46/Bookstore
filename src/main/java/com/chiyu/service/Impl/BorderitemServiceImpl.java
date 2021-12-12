@@ -23,23 +23,19 @@ public class BorderitemServiceImpl implements BorderitemService {
         this.borderitemDao = borderitemDao;
     }
 
+
     @Override
-    public BorderitemEntity insertOrUpdateBook(BorderitemEntity orderitem) {
-        return borderitemDao.save(orderitem);
+    public BorderitemEntity insertOrUpdateOrderItem(BorderitemEntity orderItem) {
+        return borderitemDao.save(orderItem);
     }
 
     @Override
-    public void deleteBook(BorderitemEntityPK id) {
+    public void deleteOrderItem(BorderitemEntityPK id) {
         borderitemDao.deleteById(id);
     }
 
     @Override
-    public List<BorderitemEntity> findAllBooks() {
-        return borderitemDao.findAll();
-    }
-
-    @Override
-    public BorderitemEntity findBookById(BorderitemEntityPK id) {
-        return borderitemDao.findById(id).orElse(null);
+    public List<BorderitemEntity> findAllOrderItemByOid(String oid) {
+        return borderitemDao.findByOid(oid);
     }
 }
