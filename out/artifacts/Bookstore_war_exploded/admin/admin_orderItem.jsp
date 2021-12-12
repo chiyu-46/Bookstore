@@ -110,8 +110,6 @@
         $(btn).attr("disabled",true);
         let bid = item.text();
         let quantity = item.next().text();
-        alert(bid);
-        alert(quantity);
         item.parents("tr").remove();
         $("#orderItemList").append("<tr id='newLine'><th scope=\"row\"><input id='input_bid' type=\"text\" value=" + bid + " disabled></th> <td><input id='input_quantity' type=\"text\" value=" + quantity + " required></td> <td> <button onclick='submitOrderItemFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary\">提交</button> </td></tr>");
     }

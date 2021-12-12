@@ -1,4 +1,4 @@
-package com.chiyu.action;
+package com.chiyu.action.background;
 
 import com.chiyu.entity.BookEntity;
 import com.chiyu.service.BookService;

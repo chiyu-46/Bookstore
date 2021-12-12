@@ -1,4 +1,4 @@
-package com.chiyu.action;
+package com.chiyu.action.background;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

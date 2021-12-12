@@ -5,8 +5,26 @@
 
 <struts>
     <package name="foreground" namespace="/" extends="struts-default" strict-method-invocation="false">
-        <action name="index">
-            <result>/index.jsp</result>
+        <!--后台总调度-->
+        <action name="dispatcher" class="foregroundDispatcher">
+            <result name="success" type="redirectAction">index!toIndex.action</result>
+            <!--用户使用时发现未登录-->
+            <result name="input">/login.jsp</result>
+            <!--用户主动登出，转到登陆界面-->
+            <result name="login">/login.jsp</result>
+            <result name="toShoppingCart" type="redirectAction">shoppingCart.action</result>
+            <result name="toOrder" type="redirectAction">order.action</result>
+        </action>
+        <!--管理员登录相关-->
+        <action name="authentication" class="authentication">
+            <result name="success" type="redirectAction">dispatcher.action</result>
+            <result name="input">/login.jsp</result>
+            <result name="register">/register.jsp</result>
+        </action>
+        <!--用户界面首页-->
+        <action name="index" class="indexForCustomer">
+            <result name="success" type="redirectAction">dispatcher.action</result>
+            <result name="toIndex">/index.jsp</result>
         </action>
     </package>
 </struts>

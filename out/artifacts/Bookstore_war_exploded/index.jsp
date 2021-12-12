@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,7 +13,7 @@
 
     <!--中部介绍区-->
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">欢迎光临！</h1>
+        <h1 class="display-4">欢迎光临，${sessionScope.get("name")}！</h1>
         <p class="lead">找到您想要的图书，然后将它放入购物车。您为您的订单支付后，我们将尽快安排物流配送。</p>
     </div>
 
@@ -31,14 +32,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>placeholder</td>
-                    <td>text</td>
-                    <td><button type="button" class="btn btn-sm btn-outline-secondary">加入</button></td>
-                </tr>
+                    <s:iterator value="bookList">
+                        <tr>
+                            <th scope="row"><s:property value="bid"/></th>
+                            <td><s:property value="bname"/></td>
+                            <td><s:property value="price"/></td>
+                            <td><s:property value="author"/></td>
+                            <td><s:property value="press"/></td>
+                            <td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="addToShoppingCart(this)">加入</button></td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
         </div>

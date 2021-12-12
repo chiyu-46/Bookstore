@@ -13,4 +13,6 @@ public interface CustomerService {
     List<CustomerEntity> findAllCustomers();
     //查找指定id的客户信息。
     CustomerEntity findCustomerById(String id);
+    //通过用户名与密码查找用户信息。
+    List<CustomerEntity> findByCnameAndPassword(String cname, String password);
 }

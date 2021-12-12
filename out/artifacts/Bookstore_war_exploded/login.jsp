@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
@@ -36,21 +37,25 @@
 			min-width: 20rem;">
         <div class="card-header">登录</div>
         <div class="card-body text-dark">
-            <form>
+
+            <form action="authentication!login.action" method="post">
+                <div class="form-group">
+                    <s:fielderror fieldName="loginFall"/>
+                </div>
                 <div class="form-group">
                     <label for="userName" class="sr-only">Email address</label>
-                    <input type="text" class="form-control" id="userName" placeholder="用户名" required autofocus>
+                    <input type="text" class="form-control" id="userName"  name="user.cname" placeholder="用户名" required autofocus>
                 </div>
                 <div class="form-group">
                     <label for="password" class="sr-only">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="口令" required>
+                    <input type="password" class="form-control" id="password"  name="user.password" placeholder="口令" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">登录</button>
             </form>
         </div>
         <div>或者</div>
         <div class="card-body text-dark">
-            <button type="submit" class="btn btn-primary btn-block">注册</button>
+            <button class="btn btn-primary btn-block"><a href="authentication!toRegister.action">注册</a></button>
         </div>
     </div>
 

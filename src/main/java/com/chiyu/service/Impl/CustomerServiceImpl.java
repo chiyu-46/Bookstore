@@ -41,4 +41,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerEntity findCustomerById(String id) {
         return customerDao.findById(id).orElse(null);
     }
+
+    @Override
+    public List<CustomerEntity> findByCnameAndPassword(String cname, String password) {
+        return customerDao.findByCnameAndPassword(cname, password);
+    }
 }
