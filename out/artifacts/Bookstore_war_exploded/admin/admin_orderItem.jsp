@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="zh-cmn-Hans">
@@ -21,7 +22,7 @@
                 <h1 class="h2">此订单内全部条目</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="mr-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">新增条目</button>
+                        <button id="addOrderItemButton" type="button" class="btn btn-sm btn-outline-secondary">新增条目</button>
                     </div>
                 </div>
             </div>
@@ -29,79 +30,28 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">书名</th>
+                    <th scope="col">书号</th>
                     <th scope="col">数量</th>
                     <th scope="col">操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-
-                    <td>Mark</td>
-                    <td>
-                        <form id="form_1">
-								<span class="number-box">
-									<input type="button" class="on-number" value="减" data-v="-1">
-									<input id="number_1" type="text" value="0">
-									<input type="button" class="on-number" value="加" data-v="1">
-								</span>
-                        </form>
-                    </td>
-                    <td>
-                        <div class="btn-group mr-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="submit_1">修改</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" id="del_1">删除</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <tbody id="orderItemList">
+                    <s:iterator value="orderItemList">
+                        <tr>
+                            <th scope="row"><s:property value="bid"/></th>
+                            <td><s:property value="quantity"/></td>
+                            <td>
+                                <div class="btn-group mr-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="updateOrderItemFunc(this)">修改</button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteOrderItemFunc(this)">删除</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
-
-            <script type="text/javascript">
-                $(document.documentElement).on("click", ".on-number", function() {
-                    var $val = $(this).siblings("input[type='text']"),
-                        val = parseInt($val.val(), 10) + parseInt($(this).data("v"));
-                    $val.val(isNaN(val) ? 0 : val);
-                    $val.val(val<1 ? 0 : val);
-                });
-            </script>
-
-            <script type="text/javascript">
-                $("#submit_1").click(function() {
-                    if(isNaN($("#number_1").val())){
-                        alert("只能提交数字！");
-                    }
-                    else if(Number($("#number_1").val())<=0){
-                        alert("订购数量不能小于0！");
-                    }
-                    else{
-                        alert($("#number_1").val());
-                        $("#submit_1").submit();
-                    }
-                });
-            </script>
-
-            <script type="text/javascript">
-                $("#del_1").click(function() {
-                    if(confirm('确定要删除该行信息?')){
-                        alert("删除！");
-                    }
-                    else{
-                        alert("取消");
-                    }
-                });
-            </script>
-
+            <!--此页对应的订单号-->
+            <p id="oid_value" class="invisible">${oidOfOrderItems}</p>
         </main>
     </div>
 </div>
@@ -110,6 +60,89 @@
     $(document).ready(function(){
         $("#order").addClass("active");
     });
+
+    <!--对应添加按钮-->
+    $("#addOrderItemButton").click(function() {
+        $("#orderItemList").append("<tr id='newLine'><th scope=\"row\"><input id='input_bid' type=\"text\" placeholder=\"书号\" required></td> <td><input id='input_quantity' type=\"text\" placeholder=\"数量\" required></td> <td> <button onclick='submitOrderItemFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary\">提交</button> </td></tr>");
+        //只有在一条新记录提交完成后，才能创建下一条新的记录。
+        $(this).attr("disabled",true);
+    });
+
+    <!--对应提交按钮-->
+    function submitOrderItemFunc(btn){
+        //防止多次提交
+        $(btn).attr("disabled",true);
+        let oid = $("#oid_value").text();
+        let bid = $("#input_bid").val();
+        let quantity = $("#input_quantity").val();
+        $.ajax({
+            url:"orderItemManager!addOrUpdateOrderItem.action",
+            type:"post",
+            data:{"orderItem.oid":oid,"orderItem.bid":bid,"orderItem.quantity":quantity},
+            dataType:"text",
+            error:function (){
+                alert("操作失败！");
+                //可以再次尝试提交
+                $(btn).attr("disabled",false);
+            },
+            success:function (data){
+                //alert(data);
+                // 将json字符串转化为json对象
+                let obj = jQuery.parseJSON(data);
+                if (obj.result === "操作成功"){
+                    alert(obj.result);
+                    //只有在一条新记录提交完成后，才能创建下一条新的记录。
+                    $("#addOrderItemButton").attr("disabled",false);
+                    $("#newLine").remove();
+                    $("#orderItemList").append("<tr><th scope='row'>" + bid + "</th> <td>" + quantity + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateOrderItemFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteOrderItemFunc(this)'>删除</button></div></td></tr>'");
+                }else {
+                    //可以再次尝试提交
+                    $(btn).attr("disabled",false);
+                }
+            }
+        })
+    }
+
+    <!--对应修改按钮-->
+    function updateOrderItemFunc(btn){
+        let item = $(btn).parents("div").parent("td").siblings("th");
+        //防止多次提交
+        $(btn).attr("disabled",true);
+        let bid = item.text();
+        let quantity = item.next().text();
+        alert(bid);
+        alert(quantity);
+        item.parents("tr").remove();
+        $("#orderItemList").append("<tr id='newLine'><th scope=\"row\"><input id='input_bid' type=\"text\" value=" + bid + " disabled></th> <td><input id='input_quantity' type=\"text\" value=" + quantity + " required></td> <td> <button onclick='submitOrderItemFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary\">提交</button> </td></tr>");
+    }
+
+    <!--对应删除按钮-->
+    function deleteOrderItemFunc(btn){
+        if(confirm('确定要删除该行信息?')){
+            let item = $(btn).parents("div").parent("td").siblings("th");
+            //防止多次提交
+            $(btn).attr("disabled",true);
+            let oid = $("#oid_value").text();
+            let bid = item.text();
+            $.ajax({
+                url:"orderItemManager!deleteOrderItem.action",
+                type:"post",
+                data:{"orderItem.oid":oid,"orderItem.bid":bid},
+                dataType:"text",
+                error:function (){
+                    alert("删除失败！");
+                },
+                success:function (data){
+                    alert(data);
+                    if (data === "删除成功"){
+                        $(btn).parents("tr").remove();
+                    }else {
+                        $(btn).attr("disabled",false);
+                    }
+                }
+            })
+        }
+    }
 </script>
 </body>
 </html>

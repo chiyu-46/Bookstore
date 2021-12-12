@@ -61,5 +61,17 @@
                 <param name="inputName">inputStream</param>
             </result>
         </action>
+        <!--订单项管理-->
+        <action name="orderItemManager" class="orderItemManager">
+            <result name="success">/admin/admin_orderItem.jsp</result>
+            <result name="addOrUpdateOrderItemResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+            <result name="deleteOrderItemResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
     </package>
 </struts>

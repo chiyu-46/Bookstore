@@ -22,7 +22,7 @@
                 <h1 class="h2">此订单内全部条目</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="mr-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">新增条目</button>
+                        <button id="addOrderItemButton" type="button" class="btn btn-sm btn-outline-secondary">新增条目</button>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <tbody id="orderItemList">
                     <s:iterator value="orderItemList">
                         <tr>
-                            <td><s:property value="bid"/></td>
+                            <th scope="row"><s:property value="bid"/></th>
                             <td><s:property value="quantity"/></td>
                             <td>
                                 <div class="btn-group mr-2">

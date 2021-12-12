@@ -51,6 +51,7 @@
                             <td><s:property value="phone"/></td>
                             <td>
                                 <div class="btn-group mr-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="checkOrderFunc(this)">详情</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="updateOrderFunc(this)">修改</button>
                                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick="deleteOrderFunc(this)">删除</button>
                                 </div>
@@ -110,7 +111,7 @@
                     //只有在一条新记录提交完成后，才能创建下一条新的记录。
                     $("#addOrderButton").attr("disabled",false);
                     $("#newLine").remove();
-                    $("#orderList").append("<tr><th scope='row'>" + oid + "</th> <td>" + cid + "</td> <td>" + otime + "</td> <td>" + ostate + "</td> <td>" + receptor + "</td> <td>" + address + "</td> <td>" + phone + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateOrderFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteOrderFunc(this)'>删除</button></div></td></tr>'");
+                    $("#orderList").append("<tr><th scope='row'>" + oid + "</th> <td>" + cid + "</td> <td>" + otime + "</td> <td>" + ostate + "</td> <td>" + receptor + "</td> <td>" + address + "</td> <td>" + phone + "</td> <td> <div class='btn-group mr-2'> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='checkOrderFunc(this)'>详情</button> <button type='button' class='btn btn-sm btn-outline-secondary' onclick='updateOrderFunc(this)'>修改</button><button type='button' class='btn btn-sm btn-outline-secondary' onclick='deleteOrderFunc(this)'>删除</button></div></td></tr>");
                 }else {
                     //可以再次尝试提交
                     $(btn).attr("disabled",false);
@@ -160,6 +161,15 @@
                 }
             })
         }
+    }
+
+    <!--对应详情按钮-->
+    function checkOrderFunc(btn){
+        //防止多次提交
+        $(btn).attr("disabled",true);
+        let item = $(btn).parents("div").parent("td").siblings("th");
+        let oid = item.text();
+        window.location.href="orderItemManager?oid=" + oid;
     }
 </script>
 </body>
