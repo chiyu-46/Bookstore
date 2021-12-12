@@ -39,7 +39,7 @@
                         <th scope="col">操作</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="orderList">
                     <s:iterator value="orderList">
                         <tr>
                             <th scope="row"><s:property value="oid"/></th>
@@ -129,8 +129,8 @@
         let otime = item.next().next().text();
         let ostate = item.next().next().next().text();
         let receptor = item.next().next().next().next().text();
-        let address = item.next().next().next().next().text().text();
-        let phone = item.next().next().next().next().text().text().text();
+        let address = item.next().next().next().next().next().text();
+        let phone = item.next().next().next().next().next().next().text();
         item.parents("tr").remove();
         $("#orderList").append("<tr id='newLine'><th scope=\"row\"><input id='input_oid' type=\"text\" value=" + oid + " disabled></th> <td><input id='input_cid' type=\"text\" value=" + cid + " required></td> <td><input id='input_otime' type=\"text\" value=" + otime + " disabled></td> <td><input id='input_ostate' type=\"text\" value=" + ostate + " ></td> <td><input id='input_receptor' type=\"text\" value=" + receptor + " required></td> <td><input id='input_address' type=\"text\" value=" + address + " required></td> <td><input id='input_phone' type=\"text\"  value=" + phone + " required></td> <td> <button onclick='submitOrderFunc(this)' type=\"button\" class=\"btn btn-sm btn-outline-secondary\">提交</button> </td></tr>");
     }
@@ -141,11 +141,11 @@
             let item = $(btn).parents("div").parent("td").siblings("th");
             //防止多次提交
             $(btn).attr("disabled",true);
-            let cid = item.text();
+            let oid = item.text();
             $.ajax({
                 url:"orderManager!deleteOrder.action",
                 type:"post",
-                data:{"order.cid":cid},
+                data:{"order.oid":oid},
                 dataType:"text",
                 error:function (){
                     alert("删除失败！");

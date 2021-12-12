@@ -39,7 +39,7 @@ public class BorderEntity {
     }
 
     @Basic
-    @Column(name = "OTIME", nullable = false)
+    @Column(name = "OTIME", insertable = false, updatable = false)
     public Timestamp getOtime() {
         return otime;
     }

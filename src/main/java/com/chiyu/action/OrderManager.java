@@ -66,25 +66,26 @@ public class OrderManager extends ActionSupport {
     }
 
     //添加或更新订单信息方法，使用AJAX，返回json字符串
-    public String addOrUpdateCustomer(){
+    public String addOrUpdateOrder(){
         if (order.getOid() == null || order.getOid().isEmpty()){
             order.setOid(UUID.randomUUID().toString().replace("-", ""));
-            //TODO:设置时间戳
             order.setOstate("已下单");
         }
         order = orderService.insertOrUpdateBorder(order);
         JSONObject object = new JSONObject();
         object.put("result","操作成功");
-        object.put("cid",order.getCid());
+        object.put("oid",order.getOid());
+        object.put("otime",order.getOtime().toString());
+        object.put("ostate",order.getOstate());
         inputStream=new ByteArrayInputStream(JSON.toJSONString(object).getBytes(StandardCharsets.UTF_8));
-        return "addOrUpdateCustomerResult";
+        return "addOrUpdateOrderResult";
     }
 
     //删除订单信息方法，使用AJAX
-    public String deleteCustomer(){
-        orderService.deleteBorder(order.getCid());
+    public String deleteOrder(){
+        orderService.deleteBorder(order.getOid());
         String result = "删除成功";
         inputStream=new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
-        return "deleteCustomerResult";
+        return "deleteOrderResult";
     }
 }

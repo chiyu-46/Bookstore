@@ -24,7 +24,8 @@ public class BorderServiceImpl implements BorderService {
 
     @Override
     public BorderEntity insertOrUpdateBorder(BorderEntity order) {
-        return borderDao.save(order);
+        borderDao.save(order);
+        return borderDao.findById(order.getOid()).orElse(null);
     }
 
     @Override
