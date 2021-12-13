@@ -46,5 +46,35 @@
             </table>
         </div>
     </div>
+    <script type="text/javascript">
+        <!--对应加入按钮-->
+        function addToShoppingCart(btn){
+            let item = $(btn).parent("td").siblings("th");
+            let bid = item.text();
+            let bname = item.next().text();
+            //存储购物车信息的json字符串
+            let shoppingCart = sessionStorage.getItem('shoppingCart');
+            if (shoppingCart == null){
+                shoppingCart = JSON.stringify([]);
+                sessionStorage.setItem('shoppingCart',shoppingCart);
+            }
+            //从json字符串解析购物车列表
+            let shoppingCartList = JSON.parse(shoppingCart);
+            //多次加入同一书籍
+            for (let i = 0; i < shoppingCartList.length; i++){
+                if (shoppingCartList[i][0] === bid){
+                    shoppingCartList[i][2] = ++shoppingCartList[i][2];
+                    sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
+                    alert("添加成功！");
+                    return;
+                }
+            }
+            //将要加入购物车的项
+            let listItem = [bid,bname,1];
+            shoppingCartList.push(listItem);
+            sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
+            alert("添加成功！");
+        }
+    </script>
 </body>
 </html>

@@ -58,6 +58,12 @@
             <a class="btn btn-primary btn-block" href="authentication!toRegister.action">注册</a>
         </div>
     </div>
-
+</div>
+<script type="text/javascript">
+    <!-- 更换用户时将浏览器存储信息清除-->
+    $(document).ready(function(){
+        sessionStorage.clear();
+    });
+</script>
 </body>
 </html>
