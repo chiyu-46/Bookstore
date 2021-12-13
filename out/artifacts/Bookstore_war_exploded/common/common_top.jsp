@@ -6,7 +6,7 @@
     <!--右侧功能区-->
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher">首页</a>
-        <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action">购物车</a>
+        <a class="p-2 text-dark" id="toShoppingCart">购物车</a>
         <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher!toOrder.action">我的订单</a>
     </nav>
     <!--退出登录、登录按钮-->

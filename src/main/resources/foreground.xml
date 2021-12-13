@@ -26,5 +26,13 @@
             <result name="success" type="redirectAction">dispatcher.action</result>
             <result name="toIndex">/index.jsp</result>
         </action>
+        <!--用户购物车页面-->
+        <action name="shoppingCart" class="shoppingCart">
+            <result name="success">/shopping_cart.jsp</result>
+            <result name="updateShoppingCartResult" type="stream">
+                <param name="contentType">text/html</param>
+                <param name="inputName">inputStream</param>
+            </result>
+        </action>
     </package>
 </struts>

@@ -54,29 +54,47 @@
             let bname = item.next().text();
             //存储购物车信息的json字符串
             let shoppingCart = sessionStorage.getItem('shoppingCart');
+            alert(shoppingCart);
             if (shoppingCart == null){
                 shoppingCart = JSON.stringify([]);
                 sessionStorage.setItem('shoppingCart',shoppingCart);
             }
             //从json字符串解析购物车列表
             let shoppingCartList = JSON.parse(shoppingCart);
-            alert(shoppingCartList);
-            //不响应多次加入同一书籍
+            //多次加入同一书籍
             for (let i = 0; i < shoppingCartList.length; i++){
                 if (shoppingCartList[i][0] === bid){
-                    alert(shoppingCartList[i][0]);
-                    alert(++shoppingCartList[i][2]);
                     shoppingCartList[i][2] = ++shoppingCartList[i][2];
                     sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
+                    alert("添加成功！");
                     return;
                 }
-
             }
             //将要加入购物车的项
             let listItem = [bid,bname,1];
             shoppingCartList.push(listItem);
             sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
+            alert("添加成功！");
         }
+
+        $("#toShoppingCart").click(function sentShoppingCart(){
+            $.ajax({
+                url:"shoppingCart!UpdateShoppingCart.action",
+                type:"post",
+                data:{"shoppingCartInfo":sessionStorage.getItem('shoppingCart')},
+                dataType:"text",
+                error:function (){
+                    alert("操作失败！");
+                },
+                success:function (data){
+                    alert(data);
+                    if (data === "操作成功"){
+                        //
+                    }
+                }
+            })
+            window.location.href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action";
+        })
     </script>
 </body>
 </html>

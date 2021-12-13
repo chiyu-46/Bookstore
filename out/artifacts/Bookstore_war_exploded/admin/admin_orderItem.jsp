@@ -4,7 +4,6 @@
 <html lang="zh-cmn-Hans">
 <head>
     <title>后台-订单项管理</title>
-    <link href="${pageContext.request.contextPath}/css/number_box.css" rel="stylesheet">
     <!-- 引入CSS样式和JS脚本文件等-->
     <%@include file="common/admin_headContext.jsp"%>
 </head>

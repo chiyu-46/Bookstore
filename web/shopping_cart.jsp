@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,51 +29,68 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>
-							<span class="number-box">
-								<input type="button" class="on-number" value="减" data-v="-1">
-								<input id="number_1" type="text" value="0">
-								<input type="button" class="on-number" value="加" data-v="1">
-							</span>
-                    </td>
-                    <td><button type="button" class="btn btn-sm btn-outline-secondary">移出购物车</button></td>
-                </tr>
+                <tbody id="shoppingCartList">
+
                 </tbody>
             </table>
         </div>
 
         <div class="text-center">
             <div class="btn-group btn-group-lg text-center" role="group" >
-                <button type="button" class="btn btn-primary btn-lg" id="submit_1">确认支付</button>
-                <button type="button" class="btn btn-secondary btn-lg" id="del_1">清空购物车</button>
+                <button type="button" class="btn btn-primary btn-lg" id="submit">确认支付</button>
+                <button type="button" class="btn btn-secondary btn-lg" id="del">清空购物车</button>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        $("#submit_1").click(function() {
-            if(isNaN($("#number_1").val())){
-                alert("只能提交数字！");
+        $(document).ready(function(){
+            // alert("开始");
+            //存储购物车信息的json字符串
+            // let shoppingCart = sessionStorage.getItem('shoppingCart');
+            let shoppingCart = '${sessionScope.get("shoppingCart")}';
+            alert(shoppingCart);
+            if (shoppingCart == null){
+                shoppingCart = JSON.stringify([]);
+                // sessionStorage.setItem('shoppingCart',shoppingCart);
             }
-            else if(Number($("#number_1").val())<=0){
-                alert("订购数量不能小于0！");
-            }
-            else{
-                alert($("#number_1").val());
-                $("#submit_1").submit();
+            //从json字符串解析购物车列表
+            let shoppingCartList = JSON.parse(shoppingCart);
+            // alert(shoppingCartList);
+            //多次加入同一书籍
+            for (let i = 0; i < shoppingCartList.length; i++){
+                // alert(shoppingCartList[i][1]);
+                $("#shoppingCartList").append("<tr><th scope='row' style='display:none;'>" + shoppingCartList[i][0] + "</th> <td>" + shoppingCartList[i][1] + "</td> <td><input id='input_bid' type=\"text\" onblur='checkValueIsNumber(this)' value=" + shoppingCartList[i][2] + " >" + "</td> <td> <button type='button' class='tn btn-sm btn-outline-secondary' onclick='removeFromShoppingCart(this)'>移出购物车</button> </td></tr>");
             }
         });
-    </script>
 
-    <script type="text/javascript">
-        $(document.documentElement).on("click", ".on-number", function() {
-            var $val = $(this).siblings("input[type='text']"),
-                val = parseInt($val.val(), 10) + parseInt($(this).data("v"));
-            $val.val(isNaN(val) ? 0 : val);
-            $val.val(val<1 ? 0 : val);
+        <!--用户输入后失去焦点，检查输入内容是否为数字，不是则重置为1-->
+        function checkValueIsNumber(input){
+            let value = input.val();
+            alert(value);
+            if(isNaN(value)){
+                alert("只能提交数字！");
+                input.val(1);
+            }
+            else if(Number(value)<=0){
+                alert("订购数量不能小于0！");
+                input.val(1);
+            }
+        }
+
+        <!--移出购物车-->
+        function removeFromShoppingCart(btn){
+            alert("点击了移出按钮");
+        }
+
+        <!--确认支付-->
+        $("#submit").click(function() {
+            alert("点击了确认支付");
+        });
+
+        <!--清空购物车-->
+        $("#del").click(function() {
+            alert("点击了清空购物车");
         });
     </script>
 

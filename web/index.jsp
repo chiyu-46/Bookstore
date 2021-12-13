@@ -54,6 +54,7 @@
             let bname = item.next().text();
             //存储购物车信息的json字符串
             let shoppingCart = sessionStorage.getItem('shoppingCart');
+            // alert(shoppingCart);
             if (shoppingCart == null){
                 shoppingCart = JSON.stringify([]);
                 sessionStorage.setItem('shoppingCart',shoppingCart);
@@ -75,6 +76,25 @@
             sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
             alert("添加成功！");
         }
+
+        $("#toShoppingCart").click(function sentShoppingCart(){
+            $.ajax({
+                url:"shoppingCart!UpdateShoppingCart.action",
+                type:"post",
+                data:{"shoppingCartInfo":sessionStorage.getItem('shoppingCart')},
+                dataType:"text",
+                error:function (){
+                    // alert("操作失败！");
+                },
+                success:function (data){
+                    // alert(data);
+                    if (data === "操作成功"){
+                        //
+                    }
+                }
+            })
+            window.location.href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action";
+        })
     </script>
 </body>
 </html>
