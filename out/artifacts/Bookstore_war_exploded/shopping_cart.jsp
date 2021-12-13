@@ -45,42 +45,76 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            alert("开始");
+            // alert("开始");
             //存储购物车信息的json字符串
             // let shoppingCart = sessionStorage.getItem('shoppingCart');
             let shoppingCart = '${sessionScope.get("shoppingCart")}';
             alert(shoppingCart);
+            // alert(shoppingCart);
             if (shoppingCart == null){
                 shoppingCart = JSON.stringify([]);
                 // sessionStorage.setItem('shoppingCart',shoppingCart);
             }
+            sessionStorage.setItem('shoppingCart',shoppingCart);
             //从json字符串解析购物车列表
             let shoppingCartList = JSON.parse(shoppingCart);
-            alert(shoppingCartList);
+            // alert(shoppingCartList);
             //多次加入同一书籍
             for (let i = 0; i < shoppingCartList.length; i++){
-                alert(shoppingCartList[i][1]);
+                // alert(shoppingCartList[i][1]);
                 $("#shoppingCartList").append("<tr><th scope='row' style='display:none;'>" + shoppingCartList[i][0] + "</th> <td>" + shoppingCartList[i][1] + "</td> <td><input id='input_bid' type=\"text\" onblur='checkValueIsNumber(this)' value=" + shoppingCartList[i][2] + " >" + "</td> <td> <button type='button' class='tn btn-sm btn-outline-secondary' onclick='removeFromShoppingCart(this)'>移出购物车</button> </td></tr>");
             }
         });
 
         <!--用户输入后失去焦点，检查输入内容是否为数字，不是则重置为1-->
         function checkValueIsNumber(input){
-            let value = input.val();
-            alert(value);
+            let value = $(input).val();
             if(isNaN(value)){
                 alert("只能提交数字！");
-                input.val(1);
+                $(input).val(1);
             }
             else if(Number(value)<=0){
                 alert("订购数量不能小于0！");
-                input.val(1);
+                $(input).val(1);
             }
         }
 
         <!--移出购物车-->
         function removeFromShoppingCart(btn){
             alert("点击了移出按钮");
+            let item = $(btn).parent("td").siblings("th");
+            //防止多次提交
+            $(btn).attr("disabled",true);
+            let bid = item.text();
+            alert(bid);
+            let shoppingCart = sessionStorage.getItem('shoppingCart');
+            //从json字符串解析购物车列表
+            let shoppingCartList = JSON.parse(shoppingCart);
+            // alert(shoppingCartList);
+            for (let i = 0; i < shoppingCartList.length; i++){
+                // alert(shoppingCartList[i][1]);
+                if (shoppingCartList[i][0] === bid){
+                    alert("成功");
+                    shoppingCartList.splice(i,1);
+                    break;
+                }
+            }
+            sessionStorage.setItem('shoppingCart',JSON.stringify(shoppingCartList));
+            $.ajax({
+                url:"shoppingCart!UpdateShoppingCart.action",
+                type:"post",
+                data:{"shoppingCartInfo":sessionStorage.getItem('shoppingCart')},
+                dataType:"text",
+                error:function (){
+                    // alert("操作失败！");
+                },
+                success:function (data){
+                    // alert(data);
+                    if (data === "操作成功"){
+                        $(btn).parent("td").parents("tr").remove();
+                    }
+                }
+            })
         }
 
         <!--确认支付-->
@@ -90,7 +124,23 @@
 
         <!--清空购物车-->
         $("#del").click(function() {
-            alert("点击了清空购物车");
+            sessionStorage.setItem('shoppingCart',JSON.stringify([]));
+            $.ajax({
+                url:"shoppingCart!UpdateShoppingCart.action",
+                type:"post",
+                data:{"shoppingCartInfo":sessionStorage.getItem('shoppingCart')},
+                dataType:"text",
+                error:function (){
+                    // alert("操作失败！");
+                },
+                success:function (data){
+                    // alert(data);
+                    if (data === "操作成功"){
+                        $("#shoppingCartList").text('');
+                    }
+                }
+            })
+            // alert("点击了清空购物车");
         });
     </script>
 

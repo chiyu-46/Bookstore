@@ -54,7 +54,7 @@
             let bname = item.next().text();
             //存储购物车信息的json字符串
             let shoppingCart = sessionStorage.getItem('shoppingCart');
-            alert(shoppingCart);
+            // alert(shoppingCart);
             if (shoppingCart == null){
                 shoppingCart = JSON.stringify([]);
                 sessionStorage.setItem('shoppingCart',shoppingCart);
@@ -84,10 +84,10 @@
                 data:{"shoppingCartInfo":sessionStorage.getItem('shoppingCart')},
                 dataType:"text",
                 error:function (){
-                    alert("操作失败！");
+                    // alert("操作失败！");
                 },
                 success:function (data){
-                    alert(data);
+                    // alert(data);
                     if (data === "操作成功"){
                         //
                     }

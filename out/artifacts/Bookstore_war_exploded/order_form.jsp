@@ -43,5 +43,10 @@
             </table>
         </div>
     </div>
+    <script type="text/javascript">
+        $("#toShoppingCart").click(function sentShoppingCart(){
+            window.location.href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action";
+        })
+    </script>
 </body>
 </html>

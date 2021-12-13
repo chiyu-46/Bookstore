@@ -40,7 +40,6 @@ public class ShoppingCart extends ActionSupport {
 
     //更新购物车Session
     public String UpdateShoppingCart(){
-        System.out.println(shoppingCartInfo);
         Map<String, Object> session = ActionContext.getContext().getSession();
         session.put("shoppingCart",shoppingCartInfo);
         inputStream=new ByteArrayInputStream("操作成功".getBytes(StandardCharsets.UTF_8));
