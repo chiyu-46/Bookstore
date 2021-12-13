@@ -10,5 +10,5 @@
         <a class="p-2 text-dark" href="#">我的订单</a>
     </nav>
     <!--退出登录、登录按钮-->
-    <a class="btn btn-outline-primary" href="#">退出登录</a>
+    <a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/dispatcher!logout.action">退出登录</a>
 </div>

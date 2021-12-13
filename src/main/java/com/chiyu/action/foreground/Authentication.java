@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 //用于实现登录注册功能
 @Controller
@@ -46,6 +47,15 @@ public class Authentication extends ActionSupport {
         this.inputStream = inputStream;
     }
 
+    //登录成功后，将用户信息保存到Session
+    private void saveToSession(){
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        session.put("cid",user.getCid());
+        session.put("name",user.getCname());
+        session.put("address",user.getAddress());
+        session.put("phone",user.getPhone());
+    }
+
     public String login(){
         List<CustomerEntity> result = customerService.findByCnameAndPassword(user.getCname(), user.getPassword());
         if (result.size() == 0){
@@ -53,9 +63,7 @@ public class Authentication extends ActionSupport {
             return INPUT;
         }
         user = result.get(0);
-        Map<String, Object> session = ActionContext.getContext().getSession();
-        session.put("name",user.getCname());
-        session.put("userInfo",user);
+        saveToSession();
         return SUCCESS;
     }
 
@@ -65,10 +73,15 @@ public class Authentication extends ActionSupport {
     }
 
     public String register(){
+        //检查当前用户名与密码的组合是否存在
+        List<CustomerEntity> result = customerService.findByCnameAndPassword(user.getCname(), user.getPassword());
+        if (result.size() > 0){
+            addFieldError("loginFall","请尝试其他用户名和密码！");
+            return INPUT;
+        }
+        user.setCid(UUID.randomUUID().toString().replace("-", ""));
         customerService.insertOrUpdateCustomer(user);
-        Map<String, Object> session = ActionContext.getContext().getSession();
-        session.put("name",user.getCname());
-        session.put("userInfo",user);
+        saveToSession();
         return SUCCESS;
     }
 }

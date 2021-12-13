@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="zh-cmn-Hans">
@@ -49,21 +50,28 @@
     <div class="row">
         <div class="col-md-12 order-md-1">
             <h4 class="mb-3">用户信息</h4>
-            <form class="needs-validation" novalidate>
-
+            <form action="authentication!register.action" method="post">
+                <div class="form-group">
+                    <s:fielderror fieldName="loginFall"/>
+                </div>
                 <div class="mb-3">
                     <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" placeholder="Username" required>
+                    <input type="text" class="form-control" id="username" name="user.cname" placeholder="Username" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="email">电话</label>
-                    <input type="tel" class="form-control" id="email" placeholder="177********">
+                    <label for="phone">电话</label>
+                    <input type="tel" class="form-control" id="phone" name="user.phone" placeholder="177********">
                 </div>
 
                 <div class="mb-3">
                     <label for="address">地址</label>
-                    <input type="text" class="form-control" id="address" placeholder="**省**市**区**小区**栋**室" required>
+                    <input type="text" class="form-control" id="address" name="user.address" placeholder="**省**市**区**小区**栋**室" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">密码</label>
+                    <input type="text" class="form-control" id="password" name="user.password" placeholder="**省**市**区**小区**栋**室" required>
                 </div>
 
                 <hr class="mb-4">

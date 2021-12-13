@@ -55,7 +55,7 @@
         </div>
         <div>或者</div>
         <div class="card-body text-dark">
-            <button class="btn btn-primary btn-block"><a href="authentication!toRegister.action">注册</a></button>
+            <a class="btn btn-primary btn-block" href="authentication!toRegister.action">注册</a>
         </div>
     </div>
 

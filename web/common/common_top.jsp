@@ -5,10 +5,10 @@
     <h5 class="my-0 mr-md-auto font-weight-normal">Bookstore</h5>
     <!--右侧功能区-->
     <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="#">首页</a>
-        <a class="p-2 text-dark" href="#">购物车</a>
-        <a class="p-2 text-dark" href="#">我的订单</a>
+        <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher">首页</a>
+        <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action">购物车</a>
+        <a class="p-2 text-dark" href="${pageContext.request.contextPath}/dispatcher!toOrder.action">我的订单</a>
     </nav>
     <!--退出登录、登录按钮-->
-    <a class="btn btn-outline-primary" href="#">退出登录</a>
+    <a class="btn btn-outline-primary"  href="${pageContext.request.contextPath}/dispatcher!logout.action">退出登录</a>
 </div>
