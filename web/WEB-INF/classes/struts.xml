@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!--开启开发模式-->
+    <constant name="struts.devMode" value="true"/>
+    <!--由 Spring 管理 Struts 的 Action-->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!--启用动态方法调用-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <!--允许带斜线的Action名-->
+    <constant name="struts.enable.SlashesInActionNames" value="true"/>
+    <!--使用UTF-8编码-->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!--不使用Struts标签默认样式-->
+    <constant name="struts.ui.theme" value="simple"/>
+
+    <include file="foreground.xml"/>
+    <include file="background.xml"/>
+
+    <!--公共配置信息-->
+    <package name="default" extends="struts-default">
+        <!--遇到未配置的Action时将执行以下Action-->
+        <default-action-ref name="defaultAction"/>
+        <!--用于打开404页面的Action-->
+        <action name="defaultAction">
+            <result name="success">/404.jsp</result>
+        </action>
+    </package>
+</struts>
