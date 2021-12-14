@@ -18,6 +18,9 @@ public class BorderEntity {
     private CustomerEntity customerByCid;
     private Collection<BorderitemEntity> borderitemsByOid;
 
+    public BorderEntity() {
+    }
+
     @Id
     @Column(name = "OID", nullable = false, length = 32)
     public String getOid() {

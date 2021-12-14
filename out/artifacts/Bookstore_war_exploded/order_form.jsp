@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,24 +22,34 @@
         <div class="table-responsive">
             <table class="table table-striped table-sm">
                 <thead>
-                <tr>
-                    <th>订单号</th>
-                    <th>创建时间</th>
-                    <th>收货地址</th>
-                    <th>状态</th>
-                </tr>
+                    <tr>
+                        <th scope="col">订单号</th>
+                        <th scope="col">客户号</th>
+                        <th scope="col">下单时间</th>
+                        <th scope="col">状态</th>
+                        <th scope="col">收货人</th>
+                        <th scope="col">收货地址</th>
+                        <th scope="col">电话</th>
+                        <th scope="col">操作</th>
+                    </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm">备货中</button>
-                        <button type="button" class="btn btn-warning btn-sm">运输中</button>
-                        <button type="button" class="btn btn-success btn-sm">已完成</button>
-                    </td>
-                </tr>
+                <tbody id="orderList">
+                    <s:iterator value="orderList">
+                        <tr>
+                            <th scope="row"><s:property value="oid"/></th>
+                            <td><s:property value="cid"/></td>
+                            <td><s:property value="otime"/></td>
+                            <td><s:property value="ostate"/></td>
+                            <td><s:property value="receptor"/></td>
+                            <td><s:property value="address"/></td>
+                            <td><s:property value="phone"/></td>
+                            <td>
+                                <div class="btn-group mr-2">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="checkOrderFunc(this)">详情</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </s:iterator>
                 </tbody>
             </table>
         </div>
@@ -47,6 +58,15 @@
         $("#toShoppingCart").click(function sentShoppingCart(){
             window.location.href="${pageContext.request.contextPath}/dispatcher!toShoppingCart.action";
         })
+
+        <!--对应详情按钮-->
+        function checkOrderFunc(btn){
+            //防止多次提交
+            $(btn).attr("disabled",true);
+            let item = $(btn).parents("div").parent("td").siblings("th");
+            let oid = item.text();
+            window.location.href="orderForCustomer!toOrderItem.action?oid=" + oid;
+        }
     </script>
 </body>
 </html>

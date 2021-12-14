@@ -49,7 +49,7 @@
             //存储购物车信息的json字符串
             // let shoppingCart = sessionStorage.getItem('shoppingCart');
             let shoppingCart = '${sessionScope.get("shoppingCart")}';
-            alert(shoppingCart);
+            // alert(shoppingCart);
             // alert(shoppingCart);
             if (shoppingCart == null){
                 shoppingCart = JSON.stringify([]);
@@ -81,12 +81,12 @@
 
         <!--移出购物车-->
         function removeFromShoppingCart(btn){
-            alert("点击了移出按钮");
+            // alert("点击了移出按钮");
             let item = $(btn).parent("td").siblings("th");
             //防止多次提交
             $(btn).attr("disabled",true);
             let bid = item.text();
-            alert(bid);
+            // alert(bid);
             let shoppingCart = sessionStorage.getItem('shoppingCart');
             //从json字符串解析购物车列表
             let shoppingCartList = JSON.parse(shoppingCart);
@@ -94,7 +94,7 @@
             for (let i = 0; i < shoppingCartList.length; i++){
                 // alert(shoppingCartList[i][1]);
                 if (shoppingCartList[i][0] === bid){
-                    alert("成功");
+                    // alert("成功");
                     shoppingCartList.splice(i,1);
                     break;
                 }
@@ -120,6 +120,22 @@
         <!--确认支付-->
         $("#submit").click(function() {
             alert("点击了确认支付");
+            sessionStorage.setItem('shoppingCart',JSON.stringify([]));
+            $.ajax({
+                url:"orderForCustomer!addOrder.action",
+                type:"post",
+                data:{},
+                dataType:"text",
+                error:function (){
+                    // alert("操作失败！");
+                },
+                success:function (data){
+                    // alert(data);
+                    if (data === "操作成功"){
+                        $("#shoppingCartList").text('');
+                    }
+                }
+            })
         });
 
         <!--清空购物车-->

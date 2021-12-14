@@ -119,7 +119,23 @@
 
         <!--确认支付-->
         $("#submit").click(function() {
-            alert("点击了确认支付");
+            // alert("点击了确认支付");
+            sessionStorage.setItem('shoppingCart',JSON.stringify([]));
+            $.ajax({
+                url:"orderForCustomer!addOrder.action",
+                type:"post",
+                data:{},
+                dataType:"text",
+                error:function (){
+                    // alert("操作失败！");
+                },
+                success:function (data){
+                    // alert(data);
+                    if (data === "操作成功"){
+                        $("#shoppingCartList").text('');
+                    }
+                }
+            })
         });
 
         <!--清空购物车-->

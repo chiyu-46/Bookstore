@@ -42,4 +42,9 @@ public class BorderServiceImpl implements BorderService {
     public BorderEntity findBorderById(String id) {
         return borderDao.findById(id).orElse(null);
     }
+
+    @Override
+    public List<BorderEntity> findBorderEntitiesByCid(String cid) {
+        return borderDao.findBorderEntitiesByCid(cid);
+    }
 }

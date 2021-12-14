@@ -13,6 +13,9 @@ public class BorderitemEntity {
     private BorderEntity borderByOid;
     private BookEntity bookByBid;
 
+    public BorderitemEntity() {
+    }
+
     @Id
     @Column(name = "OID", nullable = false, length = 32)
     public String getOid() {

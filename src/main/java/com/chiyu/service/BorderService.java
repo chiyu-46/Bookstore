@@ -16,4 +16,7 @@ public interface BorderService {
 
     //寻找指定订单号的订单信息
     BorderEntity findBorderById(String id);
+
+    //查找指定客户的订单
+    List<BorderEntity> findBorderEntitiesByCid(String cid);
 }

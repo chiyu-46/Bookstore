@@ -1,3 +1,4 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -19,18 +20,20 @@
     <!--商品区-->
     <div class="container">
         <div class="table-responsive">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>书号</th>
-                    <th>数量</th>
+                    <th scope="col">书号</th>
+                    <th scope="col">数量</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td>1,001</td>
-                    <td>random</td>
-                </tr>
+                <tbody id="orderItemList">
+                <s:iterator value="orderItemList">
+                    <tr>
+                        <th scope="row"><s:property value="bid"/></th>
+                        <td><s:property value="quantity"/></td>
+                    </tr>
+                </s:iterator>
                 </tbody>
             </table>
         </div>
