@@ -119,7 +119,7 @@
 
         <!--确认支付-->
         $("#submit").click(function() {
-            alert("点击了确认支付");
+            // alert("点击了确认支付");
             sessionStorage.setItem('shoppingCart',JSON.stringify([]));
             $.ajax({
                 url:"orderForCustomer!addOrder.action",
